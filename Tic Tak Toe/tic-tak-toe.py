@@ -160,5 +160,5 @@ global firstComputerMove
 firstComputerMove = True
 
 while not checkForWin():
-    compMove()
     playerMove()
+    compMove()
