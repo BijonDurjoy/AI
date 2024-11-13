@@ -1,36 +1,33 @@
-from collections import deque
-
-# Function to perform BFS traversal
-def bfs(graph, start_node):
-    # Create a queue to manage the nodes to visit
-    queue = deque([start_node])
+# Function to perform DFS traversal
+def dfs(graph, start_node):
+    # Stack to keep track of nodes to visit (LIFO order for DFS)
+    stack = [start_node]
     
-    # Set to track visited nodes to avoid revisiting them
+    # Set to keep track of visited nodes
     visited = set()
     
-    # Mark the starting node as visited
-    visited.add(start_node)
-    
-    # List to keep track of the BFS traversal order
+    # List to store the order of traversal
     traversal_order = []
     
-    # Loop until there are nodes in the queue
-    while queue:
-        # Pop the first node in the queue
-        current_node = queue.popleft()
+    # Continue until all nodes in the stack are processed
+    while stack:
+        # Pop the last node from the stack
+        current_node = stack.pop()
         
-        # Add the current node to the traversal order list
-        traversal_order.append(current_node)
-        
-        # Explore all the neighbors of the current node
-        for neighbor in graph[current_node]:
-            # If the neighbor has not been visited yet
-            if neighbor not in visited:
-                # Mark it as visited and add it to the queue
-                visited.add(neighbor)
-                queue.append(neighbor)
+        # Process the node if it hasn't been visited
+        if current_node not in visited:
+            # Mark the node as visited
+            visited.add(current_node)
+            # Add the node to the traversal order
+            traversal_order.append(current_node)
+            
+            # Add all unvisited neighbors to the stack
+            # (Reversed to maintain order)
+            for neighbor in reversed(graph[current_node]):
+                if neighbor not in visited:
+                    stack.append(neighbor)
     
-    # Return the BFS traversal order
+    # Return the list with the order of visited nodes
     return traversal_order
 
 # Main function to drive the program
@@ -39,28 +36,27 @@ def main():
     num_nodes = int(input("Enter the number of nodes in the graph: "))
     num_edges = int(input("Enter the number of edges: "))
     
-    # Initialize an empty graph as a dictionary
+    # Initialize the graph as an empty dictionary
     graph = {i: [] for i in range(num_nodes)}
     
-    # Input the edges of the graph
+    # Input edges
     print("Enter the edges in the format (node1 node2):")
     for _ in range(num_edges):
         node1, node2 = map(int, input().split())
-        # Add an edge in both directions (undirected graph)
+        # Add each edge to the graph (undirected graph)
         graph[node1].append(node2)
         graph[node2].append(node1)
     
-    # Input the starting node for BFS
-    start_node = int(input("Enter the starting node for BFS: "))
+    # Input the starting node for DFS
+    start_node = int(input("Enter the starting node for DFS: "))
     
-    # Perform BFS and print the result
-    result = bfs(graph, start_node)
-    print(f"BFS Traversal Order: {result}")
+    # Perform DFS and print the traversal order
+    result = dfs(graph, start_node)
+    print(f"DFS Traversal Order: {result}")
 
-# Run the main function if this is the main module
+# Run the main function if this file is executed directly
 if __name__ == "__main__":
     main()
-
 
 """
 Enter the number of nodes in the graph: 6
@@ -73,5 +69,6 @@ Enter the edges in the format (node1 node2):
 2 5
 3 5
 4 5
-Enter the starting node for BFS: 0
+Enter the starting node for DFS: 0
+
 """
