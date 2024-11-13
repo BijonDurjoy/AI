@@ -63,6 +63,7 @@ def main():
 if __name__ == "__main__":
     main()
 
+# Output
 """
 Enter the number of nodes: 5
 Enter the number of edges: 4
